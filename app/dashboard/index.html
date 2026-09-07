@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>RDRS Dashboard</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f4f4f4;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .critical {
+            font-size: 30px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Ransomware Detection & Response System</h1>
+
+    <div class="card">
+
+        <h2>System Status</h2>
+
+        <div id="status">
+            Loading...
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>Recent Alerts</h2>
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Severity</th>
+                    <th>Message</th>
+                </tr>
+
+            </thead>
+
+            <tbody id="alerts">
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<script>
+
+async function loadStatus() {
+
+    const response =
+        await fetch("http://127.0.0.1:8000/status");
+
+    const data =
+        await response.json();
+
+    document.getElementById("status").innerHTML =
+
+        "System: " + data.system + "<br>" +
+        "Status: " + data.status + "<br>" +
+        "Open Incidents: " + data.open_incidents + "<br>" +
+        "Total Alerts: " + data.total_alerts + "<br>" +
+        "Total Events: " + data.total_events;
+}
+
+
+async function loadAlerts() {
+
+    const response =
+        await fetch("http://127.0.0.1:8000/alerts");
+
+    const data =
+        await response.json();
+
+    const table =
+        document.getElementById("alerts");
+
+    table.innerHTML = "";
+
+    data.forEach(alert => {
+
+        const row =
+            document.createElement("tr");
+
+        row.innerHTML =
+            "<td>" + alert.id + "</td>" +
+            "<td>" + alert.severity + "</td>" +
+            "<td>" + alert.message + "</td>";
+
+        table.appendChild(row);
+
+    });
+}
+
+
+loadStatus();
+loadAlerts();
+
+setInterval(loadStatus, 5000);
+setInterval(loadAlerts, 5000);
+
+</script>
+
+</body>
+
+</html>

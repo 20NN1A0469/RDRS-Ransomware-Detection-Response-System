@@ -1,0 +1,30 @@
+monitor:
+  paths:
+    - ./data/sandbox
+
+  window_seconds: 60
+
+thresholds:
+  modified_files: 20
+  renamed_files: 10
+  extension_changes: 10
+  entropy: 7.0
+  cpu_percent: 80
+
+scoring:
+  rapid_encryption: 40
+  mass_rename: 30
+  high_entropy: 25
+  cpu_spike: 15
+  unknown_process: 10
+
+response:
+  simulation_mode: true
+  quarantine_path: ./data/quarantine
+
+logging:
+  system_log: ./logs/system.log
+  events_log: ./logs/events.log
+  alerts_log: ./logs/alerts.log
+  errors_log: ./logs/errors.log
+  audit_log: ./logs/audit.log

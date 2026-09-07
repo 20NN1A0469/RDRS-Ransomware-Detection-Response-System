@@ -1,0 +1,11 @@
+{
+    "incident_id": "INC-0001",
+    "severity": "CRITICAL",
+    "score": 95,
+    "reasons": [
+        "Rapid encryption",
+        "Mass rename",
+        "High entropy"
+    ],
+    "affected_files": 50
+}
